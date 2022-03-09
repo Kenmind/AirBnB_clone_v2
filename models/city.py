@@ -17,6 +17,10 @@ class City(BaseModel, Base):
         state_id (sqlalchemy String): The state id of the City.
     """
     __tablename__ = "cities"
-    name = Column(String(128), nullable=False)
-    state_id = Column(String(60), ForeignKey("states.id"), nullable=False)
-    places = relationship("Place", backref="cities", cascade="delete")
+    if os.getenv("HBNB_TYPE_STORAGE") == "db":
+        name = Column(String(128), nullable=False)
+        state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
+        places = relationship("Place", cascade="all")
+    else:
+        state_id = ""
+        name = ""
