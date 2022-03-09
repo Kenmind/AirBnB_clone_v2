@@ -57,13 +57,13 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        """Delete a given object from __objects, if it exists."""
-        if obj is None:
-            return
-        try:
-            del self.__objects["{}.{}".format(type(obj).__name__, obj.id)]
-        except (AttributeError, KeyError):
-            pass
+        """Deletes obj from __objects if it's inside
+        """
+        if obj:
+            key = "{}.{}".format(obj.__class__.__name__, obj.id)
+            if key in self.__objects.keys():
+                del self.__objects[key]
+                self.save()
 
     def close(self):
         """Call the reload method."""
