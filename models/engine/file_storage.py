@@ -25,15 +25,26 @@ class FileStorage:
         If a cls is specified, returns a dictionary of objects of that type.
         Otherwise, returns the __objects dictionary.
         """
-        if cls is not None:
-            if type(cls) == str:
-                cls = eval(cls)
-            cls_dict = {}
-            for k, v in self.__objects.items():
-                if type(v) == cls:
-                    cls_dict[k] = v
-            return cls_dict
-        return self.__objects
+        def all(self, cls=None):
+        if cls is None:
+            return FileStorage.__objects
+
+        storage = {}
+        for obj_id in FileStorage.__objects:
+            obj_cls = FileStorage.__objects[obj_id].__class__.__name__
+            if cls == obj_cls:
+                storage[obj_id] = FileStorage.__objects[obj_id]
+
+        return storage
+       # if cls is not None:
+        #    if type(cls) == str:
+         #       cls = eval(cls)
+          #  cls_dict = {}
+           # for k, v in self.__objects.items():
+            #    if type(v) == cls:
+             #       cls_dict[k] = v
+            #return cls_dict
+        #return self.__objects
 
     def new(self, obj):
         """Set in __objects obj with key <obj_class_name>.id."""
