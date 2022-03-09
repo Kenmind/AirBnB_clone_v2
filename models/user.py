@@ -1,36 +1,29 @@
 #!/usr/bin/python3
 """This is the user class"""
 from models.base_model import BaseModel, Base
-from sqlalchemy.orm import relationship
 from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
+import os
 
-s = "HBNB_TYPE_STORAGE"
-if cs in environ.keys() and environ["HBNB_TYPE_STORAGE"] == "db":
-    class User(BaseModel, Base):
-        """This is the class for user
-        Attributes:
+
+class User(BaseModel, Base):
+    """This is the class for user
+    Attributes:
         email: email address
         password: password for you login
         first_name: first name
         last_name: last name
-        """
-        __tablename__ = "users"
+    """
+    __tablename__ = "users"
+
+    if os.getenv("HBNB_TYPE_STORAGE") == "db":
         email = Column(String(128), nullable=False)
         password = Column(String(128), nullable=False)
-        first_name = Column(String(128), nullable=True)
-        last_name = Column(String(128), nullable=True)
-        places = relationship("Place", backref="user")
-        reviews = relationship("Review", backref="user")
-
-        def __init__(self, **kwargs):
-            setattr(self, "id", str(uuid4()))
-            for i, j in kwargs.items():
-                setattr(self, i, j)
-else:
-    class User(BaseModel):
-        """This is the class for user
-        Attributes:
-        """
+        first_name = Column(String(128), nullable=False)
+        last_name = Column(String(128), nullable=False)
+        places = relationship("Place", cascade="all", backref="user")
+        reviews = relationship("Review", cascade="all", backref="user")
+    else:
         email = ""
         password = ""
         first_name = ""
