@@ -8,13 +8,15 @@ from console import HBNBCommand
 from io import StringIO
 import re
 
+
 class TestConsole(unittest.TestCase):
-    """ 
-    A unit test to see if the overall functinalits 
-    of the console like, the precmd, the parsing, the 
+    """
+    A unit test to see if the overall functinalits
+    of the console like, the precmd, the parsing, the
     excution, unkown command handling, and so on are working
     """
     pass
+
 
 class TestCreate(unittest.TestCase):
     """
@@ -34,12 +36,12 @@ class TestCreate(unittest.TestCase):
 
     def test_create_unExistingClass(self):
         """
-        Tests the creat method when the class to be created doesn't 
+        Tests the creat method when the class to be created doesn't
         exist.
         """
 
         with patch('sys.stdout', new=StringIO()) as out_put:
-            HBNBCommand().onecmd("create NOCLASS")   
+            HBNBCommand().onecmd("create NOCLASS")
         clean_output = out_put.getvalue()
         self.assertEqual(clean_output, "** class doesn't exist **\n")
 
@@ -47,7 +49,6 @@ class TestCreate(unittest.TestCase):
         """
         Tests the create method with a correcet class name
         """
-
 
         with patch('sys.stdout', new=StringIO()) as out_put:
             HBNBCommand().onecmd("create User")
@@ -67,9 +68,8 @@ class TestCreate(unittest.TestCase):
         Test the create method with paramaetrs
         """
 
-        
         # delete the database to avoid conflicting
-        # names        
+        # names
         from models import storage as f_storage
         f_storage.empty()
 
@@ -88,20 +88,19 @@ class TestCreate(unittest.TestCase):
             self.assertTrue(len(result) == 1)
         # do some more test with other class names
 
-
-
     def test_create_classWithMoreParams(self):
         """
         Test the create method with paramaetrs
         """
-        
+
         # delete the database to avoid conflicting
-        # names        
+        # names
         from models import storage as f_storage
         f_storage.empty()
 
         with patch('sys.stdout', new=StringIO()) as out_put:
-            HBNBCommand().onecmd("create Place name=\"California\" city_id=\"0001\" user_id=\"0001\"")
+            HBNBCommand().onecmd("create Place name=\"California\
+                    " city_id=\"0001\" user_id=\"0001\"")
 
         clean_output = out_put.getvalue()
         self.assertRegex(clean_output, r"\w{8}-\w{4}-\w{4}-\w{4}-\w{12}\n")
@@ -114,7 +113,7 @@ class TestCreate(unittest.TestCase):
 
             result = re.findall("\"name\": \"California\"", db)
             self.assertTrue(len(result) == 1)
-            
+
             result = re.findall("\"city_id\": \"0001\"", db)
             self.assertTrue(len(result) == 1)
 
@@ -123,13 +122,12 @@ class TestCreate(unittest.TestCase):
         # do some more test with other class names
 
     def test_create_valueTypesStrWithDoubleQuote(self):
-
         """
         Test the create method with paramaetrs that have a string value
         """
-        
+
         # delete the database to avoid conflicting
-        # names        
+        # names
         from models import storage as f_storage
         f_storage.empty()
 
@@ -150,13 +148,12 @@ class TestCreate(unittest.TestCase):
         # do some more test with other class names
 
     def test_create_valueTypeStrWithSpace(self):
-
         """
         Test the create method with paramaetrs that have a string value
         """
 
         # delete the database to avoid conflicting
-        # names        
+        # names
         from models import storage as f_storage
         f_storage.empty()
 
@@ -177,16 +174,15 @@ class TestCreate(unittest.TestCase):
         # do some more test with other class names
 
     def test_create_valueTypeFloat(self):
-
         """
         Test the create method with paramaetrs that have a string value
         """
 
         # delete the database to avoid conflicting
-        # names        
+        # names
         from models import storage as f_storage
         f_storage.empty()
-        
+
         with patch('sys.stdout', new=StringIO()) as out_put:
             HBNBCommand().onecmd("create Place name=15.6")
         clean_output = out_put.getvalue()
@@ -203,16 +199,14 @@ class TestCreate(unittest.TestCase):
             self.assertTrue(len(result) == 1)
 
     def test_create_valueTypeInt(self):
-
         """
         Test the create method with paramaetrs that have a string value
         """
-     
         # delete the database to avoid conflicting
-        # names        
+        # names
         from models import storage as f_storage
         f_storage.empty()
- 
+
         with patch('sys.stdout', new=StringIO()) as out_put:
             HBNBCommand().onecmd("create Place name=15")
         clean_output = out_put.getvalue()
@@ -227,18 +221,16 @@ class TestCreate(unittest.TestCase):
 
             result = re.findall("\"name\": 15", db)
             self.assertTrue(len(result) == 1)
-      
-    def test_create_valueTypeWrong(self):
 
+    def test_create_valueTypeWrong(self):
         """
         Test the create method with paramaetrs that have a string value
         """
-       
         # delete the database to avoid conflicting
-        # names        
+        # names
         from models import storage as f_storage
         f_storage.empty()
- 
+
         with patch('sys.stdout', new=StringIO()) as out_put:
             HBNBCommand().onecmd("create Place name=_15")
         clean_output = out_put.getvalue()
@@ -253,6 +245,8 @@ class TestCreate(unittest.TestCase):
 
             result = re.findall("\"name\": \"_15\"", db)
             self.assertTrue(len(result) == 0)
-                     
+
+
 class TestShow(unittest.TestCase):
+    """Test show"""
     pass
