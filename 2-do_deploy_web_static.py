@@ -9,6 +9,9 @@
 from fabric.api import put, run, env
 from os.path import exists
 env.hosts = ['3.229.113.167', '3.234.210.158']
+env.user = 'ubuntu'
+env.identity = '~/.ssh/school'
+env.password = None
 
 
 def do_deploy(archive_path):
@@ -29,6 +32,7 @@ def do_deploy(archive_path):
         run('rm -rf {}{}/web_static'.format(path, n))
         run('rm -rf /data/web_static/current')
         run('ln -s {}{}/ /data/web_static/current'.format(path, n))
+        run('chmod -R 755 /data/')
         print("New version deployed!")
         return True
     except FileNotFoundError:
